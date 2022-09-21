@@ -1,0 +1,8 @@
+﻿  Console_File_C++.cpp
+C:\Users\chand\source\repos\Console_File_C++\Console_File_C++\Console_File_C++.cpp(15,1): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\chand\source\repos\Console_File_C++\Console_File_C++\Console_File_C++.cpp(34,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\chand\source\repos\Console_File_C++\Console_File_C++\Console_File_C++.cpp(39,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\chand\source\repos\Console_File_C++\Console_File_C++\Console_File_C++.cpp(59,1): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\chand\source\repos\Console_File_C++\Console_File_C++\Console_File_C++.cpp(76,1): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\chand\source\repos\Console_File_C++\Console_File_C++\Console_File_C++.cpp(95,1): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+  Console_File_C++.vcxproj -> C:\Users\chand\source\repos\Console_File_C++\x64\Debug\Console_File_C++.exe
