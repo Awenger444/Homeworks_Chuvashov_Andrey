@@ -1,136 +1,110 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
-#include <cstring>
-#include <cstdio>
+﻿#include <iostream>
+
+#define SIZE 5
 
 using namespace std;
 
-class String {
-	char* buffer = NULL;
-	unsigned int size = 0;
+template <typename type>
+class Queue {
+	int start = -1, end = -1, size = SIZE;
+	type * buffer = new type[size];
 public:
-	String() = default;
-
-	String(const char * str) {
-		if (str) {
-			size = strlen(str);
-			buffer = new char[size + 1];
-			strcpy(buffer, str);
-		}
+	Queue() = default;
+	Queue(const Queue & q) : start(q.start), end(q.end), size(q.size) {
+		this->buffer = new type[this->size];
+		if (!q.empty())
+			for (int i = 0; i < this->size; i++)
+				this->buffer[i] = q.buffer[i];
 	}
-
-	String(const String& str) {
-		if (str.size) {
-			size = str.size;
-			buffer = new char[size + 1];
-			strcpy(buffer, str.buffer);
-		}
-	}
-
-	~String() {
+	~Queue() {
 		delete[] buffer;
+		start = end = -1;
 	}
-
-	char & operator[](int i) {
-		if ((i >= 0) && (i < size)) return buffer[i];
-		else cout << "Invalid index" << endl;
+	bool empty() const {
+		return (start == -1 && end == -1);
 	}
-
-	const char & operator[](int i) const {
-		if ((i >= 0) && (i < size)) return buffer[i];
-		else cout << "Invalid index" << endl;
+	bool full() const {
+		return ((end + 1) % size == start);
 	}
-
-	String & operator=(const String & str) {
-		if (this != &str) {
+	int counter() const {
+		if (empty()) return 0;
+		else if (full()) return size;
+		return (end >= start ? end - start + 1 : size - (start - end - 1));
+	}
+	type first() const {
+		if (empty()) exit(1);
+		return buffer[start];
+	}
+	type last() {
+		if (empty()) exit(1);
+		return buffer[end];
+	}
+	void reset() {
+		start = end = -1;
+	}
+	void print() const {
+		if (empty()) cout << "Queue is empty." << endl;
+		else {
+			if (end == start) cout << buffer[start] << endl;
+			int tmp = start;
+			while (tmp != end) {
+				cout << buffer[tmp] << " ";
+				tmp = (tmp + 1) % size;
+			}
+			cout << buffer[tmp] << endl;
+		}
+	}
+	void pop() {
+		if (empty()) exit(1);
+		if (start == end) reset();
+		else start = (start + 1) % size;
+	}
+	void put(type elem) {
+		if (empty()) start = end = 0;
+		else {
+			if (full()) {
+				size *= 2;
+				type* new_buffer = new type[size];
+				int tmp = start, j = 0;
+				while (j < counter()) {
+					new_buffer[j] = buffer[tmp];
+					tmp = (tmp + 1) % size;
+					j++;
+				}
+				buffer = new_buffer;
+			}
+			end = (end + 1) % size;
+		}
+		buffer[end] = elem;
+	}
+	Queue & operator=(const Queue & q) {
+		if (this != &q) {
 			delete[] this->buffer;
-			this->buffer = new char[str.size + 1];
-			strcpy(this->buffer, str.buffer);
-			this->size = str.size;
-
+			this->size = q.size;
+			this->start = q.start;
+			this->end = q.end;
+			this->buffer = new type[this->size];
+			for (int i = 0; i < this->size; i++)
+				this->buffer[i] = q.buffer[i];
 		}
 		return *this;
 	}
-
-	String & operator+=(const String & str) {
-		String string;
-		string.size = this->size + str.size;
-		string.buffer = new char[string.size + 1];
-		strcpy(string.buffer, this->buffer);
-		strcat(string.buffer, str.buffer);
-		*this = string;
-		return *this;
-	}
-
-	String operator+(const String & str) const {
-		String string;
-		string.size = this->size + str.size;
-		string.buffer = new char[string.size + 1];
-		strcpy(string.buffer, this->buffer);
-		strcat(string.buffer, str.buffer);
-		return string;
-	}
-
-	bool operator==(const String & str) const {
-		return strcmp(this->buffer, str.buffer) == 0;
-	}
-
-	bool operator!=(const String & str) const {
-		return strcmp(this->buffer, str.buffer) != 0;
-	}
-
-	bool operator<(const String & str) const {
-		return strcmp(this->buffer, str.buffer) == 1;
-	}
-
-	bool operator>(const String & str) const {
-		return strcmp(this->buffer, str.buffer) == -1;
-	}
-
-	bool operator<=(const String& str) const {
-		return strcmp(this->buffer, str.buffer) != 1;
-	}
-
-	bool operator>=(const String& str) const {
-		return strcmp(this->buffer, str.buffer) != -1;
-	}
-
-	friend ostream& operator<<(ostream&, const String&);
-	friend istream& operator>>(istream&, String&);
 };
 
-ostream& operator<<(ostream& stream, const String & str) {
-	if (str.buffer) stream << str.buffer;
-	else cout << "None" << endl;
-	return stream;
-}
-
-istream& operator>>(istream& stream, String& str) {
-	delete[] str.buffer;
-	int size = 20, top = 0;
-	char* new_buffer = new char[size];
-	char* time_buffer = NULL;
-	char ch;
-	while ((ch = getc(stdin)) != '\n') {
-		if (top == size - 1) {
-			time_buffer = new char[size * 2];
-			strcpy(time_buffer, new_buffer);
-			delete[] new_buffer;
-			new_buffer = time_buffer;
-			size *= 2;
-		}
-		new_buffer[top] = ch;
-		new_buffer[++top] = '\0';
-	}
-	new_buffer[++top] = '\0';
-	str.buffer = new_buffer;
-	return stream;
-}
-
 int main() {
-	String string;
-	cin >> string;
-	cout << string << endl;
+	Queue<int> queue_1 = Queue<int>();
+	Queue<int> queue_2 = Queue<int>();
+	for (int i = 0; i < SIZE; i++)
+		queue_1.put(i + 1);
+	queue_1.print();
+	queue_2.print();
+	queue_2 = queue_1;
+	queue_2.print();
+
+	queue_1.pop();
+	queue_1.put(8);
+	queue_1.print();
+	queue_2.print();
 
 	return 0;
 }
