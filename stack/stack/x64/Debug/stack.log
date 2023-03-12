@@ -1,0 +1,9 @@
+﻿  stack.cpp
+C:\Users\chand\source\repos\stack\stack\stack.cpp(18,1): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\chand\source\repos\stack\stack\stack.cpp(41,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\chand\source\repos\stack\stack\stack.cpp(46,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\chand\source\repos\stack\stack\stack.cpp(66,1): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\chand\source\repos\stack\stack\stack.cpp(83,1): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\chand\source\repos\stack\stack\stack.cpp(102,1): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\chand\source\repos\stack\stack\stack.cpp(159): warning C4715: Stack<int>::ftop: значение возвращается не при всех путях выполнения
+  stack.vcxproj -> C:\Users\chand\source\repos\stack\x64\Debug\stack.exe
